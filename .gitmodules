@@ -1,0 +1,3 @@
+[submodule "extern/szs_datatransport"]
+	path = extern/szs_datatransport
+	url = git@github.com:NielsDyrberg/szs_datatransport.git
