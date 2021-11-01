@@ -5,6 +5,8 @@
 
 #include "src/Final/timeKeeper.h"
 #include "src/Final/syncMaster.h"
+#include "src/Final/syncSlave.h"
+#include <thread>
 
 
 
@@ -16,16 +18,23 @@
 int main() {
 //Master Ma;
 //TimeKeeper tk;
-Master td;
+Master M;
+Slave S;
 //tk.resetTime();
-    td.keeper.resetTime();
+    M.keeper.resetTime();
+    S.keeperS.resetTime();
     sleep(1);
     //tk.getTime();
    //sleep(1);
-
-    td.TS2();
-    td.TS3();
-    td.print();
+    S.setSyncReq(M.syncReq_msg());
+    S.syncAcpt();
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    M.TS2();
+    M.TS3();
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    S.TS23Recived(M.ts23[0], M.ts23[1]);
+    S.roundTripTime();
+    S.print();
     //tk.getTime();
    // sleep(1);
   //  td.TS3();

@@ -32,10 +32,10 @@ void Master::TS3() {
 
 }
 
-void Master::print() {
+/*void Master::print() {
     std::cout<<ts23[0] << " ";
     std::cout<<ts23[1] << std::endl;
-}
+}*/
 
 
 
