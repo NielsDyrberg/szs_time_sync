@@ -6,8 +6,9 @@
 #define CUSTOM_TIMEKEEPER_SYNCSLAVE_H
 #include "timeKeeper.h"
 #include <chrono>
-
+#include <cmath>
 class Slave {
+
 public:
     Slave();
     TimeKeeper keeperS;
@@ -17,6 +18,8 @@ public:
     void TS23Recived( long long TS2, long long TS3);
     void TS4();
     long long roundTripTime();
+    long long clockOffset();
+    long long adjustClock( long long RTT, long long CO);
     void print();
 
 protected:

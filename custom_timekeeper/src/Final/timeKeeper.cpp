@@ -10,7 +10,7 @@
 
 
 void TimeKeeper::resetTime(){
-    long long  reset;
+
     start_time = std::chrono::steady_clock::now();
 
 

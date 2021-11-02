@@ -16,9 +16,10 @@ void Slave::TS1() {
 }
 
 void Slave::syncAcpt()  {
-    if (syncReqR == "101001 REQ slave time 001010"){
+    if (syncReqR == "101001 REQ slave time 001010") {
         TS1();
     }
+
 }
 
 void Slave::TS4() {
@@ -27,9 +28,10 @@ void Slave::TS4() {
 }
 
 void Slave::TS23Recived( long long TS2, long long TS3) {
-    TS4();
+
     ts1234[1] = TS2;
     ts1234[2] = TS3;
+    TS4();
 }
 
 long long  Slave::roundTripTime() {
@@ -37,12 +39,39 @@ long long  Slave::roundTripTime() {
     roundTripTime=((ts1234[3]-ts1234[0])-(ts1234[2]-ts1234[1]));
     return roundTripTime;
 }
+
+long long  Slave::clockOffset() {
+    long long  offset;
+    offset=(((ts1234[1]-ts1234[0])+(ts1234[2]-ts1234[3]))/2);
+    return offset;
+}
+
+long long Slave::adjustClock(long long CO, long long RTT){
+    long long adjust;
+    long long newClock;
+    adjust = CO+(RTT/2);
+    //std::cout<<adjust<<std::endl;
+    newClock = adjust+keeperS.getTime();
+    return newClock;
+}
+
 void Slave::print() {
-    for (int i ; i < 4; i++) {
-        std::cout << ts1234[i] << " ";
+    std::cout<<"TS1: " << ts1234[0] <<" "<<std::endl;
+    std::cout<<"TS2: " << ts1234[1] <<" "<<std::endl;
+    std::cout<<"TS3: " << ts1234[2] <<" "<<std::endl;
+    std::cout<<"TS4: " << ts1234[3] <<" "<<std::endl;
+    /*
+    int j = 1;
+    for (int i=0; i <= 3; i++) {
+        if (i==3){
+            std::cout<<"TS"<<j <<":" << ts1234[i] <<" "<<std::endl;
+        } else{
+        std::cout<<"TS"<<j <<":" << ts1234[i] <<", ";
     }
-    std::cout<<""<<std::endl;
-    std::cout<<"round trip time: ";
-    std::cout<<roundTripTime();
+        j++;
+    }*/
+    std::cout<<"Round trip time: " <<roundTripTime() <<" µs"<<std::endl;
+    std::cout<<"Clock offset: " <<clockOffset()<<" µs"<<std::endl;
+
 }
 
