@@ -3,17 +3,15 @@
 //
 
 
-#include "src/Final/timeKeeper.h"
-#include "src/Final/syncMaster.h"
-#include "src/Final/syncSlave.h"
+#include "timeKeeper.h"
+#include "syncMaster.h"
+#include "syncSlave.h"
+#include "dataTransport.h"
 #include <thread>
 
+void test_dt(){
 
-
-
-
-
-
+}
 
 int main() {
     long long t;

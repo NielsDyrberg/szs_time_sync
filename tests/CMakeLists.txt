@@ -1,2 +1,3 @@
 
 add_subdirectory(test_project)
+add_subdirectory(test_custom_timekeeper)

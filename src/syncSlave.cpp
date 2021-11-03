@@ -1,8 +1,8 @@
 //
 // Created by Martin on 29-10-2021.
 //
-#include "timeKeeper.h"
-#include "syncSlave.h"
+#include "../include/timeKeeper.h"
+#include "../include/syncSlave.h"
 
 
 Slave::Slave() : ts1234{0,0,0,0} {
