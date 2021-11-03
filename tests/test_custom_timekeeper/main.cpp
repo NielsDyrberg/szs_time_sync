@@ -9,8 +9,18 @@
 #include "dataTransport.h"
 #include <thread>
 
-void test_dt(){
-
+void test_recv_two_longlong_int(){
+    long long unsigned int* bufPTR = nullptr;
+    uint8_t size = 0;
+    DataTransport dt;
+    if(dt.receive() > 0) {
+        bufPTR = dt.GetBuffer(bufPTR, &size);
+        for (int i = 0; i < size; i++) {
+            std::cout << *bufPTR << std::endl;
+            bufPTR++;
+        }
+    }
+    std::cout << "Hello, World!" << std::endl;
 }
 
 int main() {
@@ -19,6 +29,8 @@ int main() {
     long long u;
     long long o;
     long long p;
+
+    test_recv_two_longlong_int();
 //Master Ma;
 //TimeKeeper tk;
 Master M;
