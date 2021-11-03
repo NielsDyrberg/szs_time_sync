@@ -9,6 +9,16 @@
 #include "dataTransport.h"
 #include <thread>
 
+
+void test_send_longlongint(){
+    char hostname[] = "192.168.0.100";
+    DataTransport dt(hostname, 1695, true);
+    // char* tmp_hostname = dt.GetHostname();
+    dt.open_connection();
+    long long unsigned int msgToSend[] = {1229782938247303441, 2459565876494606882};
+    dt.send(msgToSend, sizeof(msgToSend));
+}
+
 void test_recv_two_longlong_int(){
     long long unsigned int* bufPTR = nullptr;
     uint8_t size = 0;
@@ -23,28 +33,28 @@ void test_recv_two_longlong_int(){
     std::cout << "Hello, World!" << std::endl;
 }
 
-int main() {
+void runtestTIme(){
+
+
     long long t;
     long long y;
     long long u;
     long long o;
     long long p;
 
-    test_recv_two_longlong_int();
-//Master Ma;
-//TimeKeeper tk;
-Master M;
-Slave S;
-//tk.resetTime();
+
+    Master M;
+    Slave S;
+
     M.keeper.getTime();
     S.keeperS.getTime();
     sleep(1);
     M.keeper.resetTime();
-   std::this_thread::sleep_for(std::chrono::milliseconds(1032));
+    std::this_thread::sleep_for(std::chrono::milliseconds(1032));
     S.keeperS.resetTime();
     S.setSyncReq(M.syncReq_msg());
     S.syncAcpt();
-   std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
     M.TS2();
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
     M.TS3();
@@ -65,6 +75,13 @@ Slave S;
     std::cout<<"Master time:           "<<p<<" µs "<<std::endl;
     std::cout<<"Diff salve/master:           "<<o-p<<" µs "<<std::endl;
     std::cout<<"_________________________________"<<std::endl;
+}
+
+int main() {
+
+
+    test_send_longlongint();
+
 
 
 
