@@ -19,7 +19,7 @@ public:
     void TS4();
     long long roundTripTime();
     long long clockOffset();
-    long long adjustClock( long long RTT, long long CO);
+    long long adjustClock( long long CO);
     void print();
 
 protected:

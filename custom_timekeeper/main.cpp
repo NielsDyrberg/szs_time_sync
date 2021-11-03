@@ -30,12 +30,13 @@ Slave S;
     S.keeperS.getTime();
     sleep(1);
     M.keeper.resetTime();
-  std::this_thread::sleep_for(std::chrono::milliseconds(60000));
+   std::this_thread::sleep_for(std::chrono::milliseconds(1032));
     S.keeperS.resetTime();
     S.setSyncReq(M.syncReq_msg());
     S.syncAcpt();
-   // std::this_thread::sleep_for(std::chrono::milliseconds(2));
+   std::this_thread::sleep_for(std::chrono::milliseconds(2));
     M.TS2();
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
     M.TS3();
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
     S.TS23Recived(M.ts23[0], M.ts23[1]);
@@ -44,13 +45,17 @@ Slave S;
     S.print();
     y = M.keeper.getTime();
     u = S.keeperS.getTime();
-    o = S.adjustClock(S.clockOffset(), S.roundTripTime());
+    o = S.adjustClock(S.clockOffset());
     p = M.keeper.getTime();
-    std::cout<<"Master: "<<y<<std::endl;
-    std::cout<<"Slave: "<<u<<std::endl;
-    std::cout<<"Slave adjust: "<<o<<std::endl;
-    std::cout<<"Master: "<<p<<std::endl;
-    std::cout<<"Diff mellem salve og master: "<<o-p<<std::endl;
+    std::cout<<"---------------------------------"<<std::endl;
+    std::cout<<"Master time right now: "<<y<<" µs "<<std::endl;
+    std::cout<<"Slave time right now:     "<<u<<" µs "<<std::endl;
+    std::cout<<"---------------------------------"<<std::endl;
+    std::cout<<"Slave adjusted time:   "<<o<<" µs "<<std::endl;
+    std::cout<<"Master time:           "<<p<<" µs "<<std::endl;
+    std::cout<<"Diff salve/master:           "<<o-p<<" µs "<<std::endl;
+    std::cout<<"_________________________________"<<std::endl;
+
 
 
 

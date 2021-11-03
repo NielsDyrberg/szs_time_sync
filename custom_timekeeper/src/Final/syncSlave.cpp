@@ -46,20 +46,18 @@ long long  Slave::clockOffset() {
     return offset;
 }
 
-long long Slave::adjustClock(long long CO, long long RTT){
-    long long adjust;
+long long Slave::adjustClock(long long CO){
     long long newClock;
-    adjust = CO+(RTT/2);
-    //std::cout<<adjust<<std::endl;
-    newClock = adjust+keeperS.getTime();
+    newClock = CO+keeperS.getTime();
     return newClock;
 }
 
 void Slave::print() {
-    std::cout<<"TS1: " << ts1234[0] <<" "<<std::endl;
-    std::cout<<"TS2: " << ts1234[1] <<" "<<std::endl;
-    std::cout<<"TS3: " << ts1234[2] <<" "<<std::endl;
-    std::cout<<"TS4: " << ts1234[3] <<" "<<std::endl;
+    std::cout<<"_________________________________"<<std::endl;
+    std::cout<<"TS1:                        " << ts1234[0] <<" µs "<<std::endl;
+    std::cout<<"TS2:                   " << ts1234[1] <<" µs "<<std::endl;
+    std::cout<<"TS3:                   " << ts1234[2] <<" µs "<<std::endl;
+    std::cout<<"TS4:                      " << ts1234[3] <<" µs "<<std::endl;
     /*
     int j = 1;
     for (int i=0; i <= 3; i++) {
@@ -70,8 +68,9 @@ void Slave::print() {
     }
         j++;
     }*/
-    std::cout<<"Round trip time: " <<roundTripTime() <<" µs"<<std::endl;
-    std::cout<<"Clock offset: " <<clockOffset()<<" µs"<<std::endl;
+    std::cout<<"---------------------------------"<<std::endl;
+    std::cout<<"Round trip time:          " <<roundTripTime() <<" µs"<<std::endl;
+    std::cout<<"Clock offset:          " <<clockOffset()<<" µs"<<std::endl;
 
 }
 
