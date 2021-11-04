@@ -7,20 +7,15 @@
 
 Slave::Slave() : ts1234{0,0,0,0} {
 }
-void Slave::setSyncReq(std::string syncMsg) {
-    syncReqR = syncMsg;
-}
+//void Slave::setSyncReq(uint8_t syncMsg[]) {
+  //  syncReqR = syncMsg[0];
+//}
 void Slave::TS1() {
     ts1234[0] = keeperS.getTime();
     //std::cout<<TS2<<std::endl;
 }
 
-void Slave::syncAcpt()  {
-    if (syncReqR == "101001 REQ slave time 001010") {
-        TS1();
-    }
 
-}
 
 void Slave::TS4() {
     ts1234[3] = keeperS.getTime();

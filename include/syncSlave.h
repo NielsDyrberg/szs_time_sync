@@ -12,7 +12,7 @@ class Slave {
 public:
     Slave();
     TimeKeeper keeperS;
-    void setSyncReq(std::string syncMsg);
+    //void setSyncReq(uint8_t syncMsg[]);
     void syncAcpt();
     void TS1();
     void TS23Recived( long long TS2, long long TS3);
