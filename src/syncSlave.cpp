@@ -7,9 +7,7 @@
 
 Slave::Slave() : ts1234{0,0,0,0} {
 }
-//void Slave::setSyncReq(uint8_t syncMsg[]) {
-  //  syncReqR = syncMsg[0];
-//}
+
 void Slave::TS1() {
     ts1234[0] = keeperS.getTime();
     //std::cout<<TS2<<std::endl;
@@ -24,9 +22,10 @@ void Slave::TS4() {
 
 void Slave::TS23Recived( long long TS2, long long TS3) {
 
+
     ts1234[1] = TS2;
     ts1234[2] = TS3;
-    TS4();
+
 }
 
 long long  Slave::roundTripTime() {
@@ -37,7 +36,12 @@ long long  Slave::roundTripTime() {
 
 long long  Slave::clockOffset() {
     long long  offset;
-    offset=(((ts1234[1]-ts1234[0])+(ts1234[2]-ts1234[3]))/2);
+    auto  ts1 = (long long)ts1234[0];
+    auto  ts2 = (long long)ts1234[1];
+    auto  ts3 = (long long)ts1234[2];
+    auto  ts4 = (long long)ts1234[3];
+    offset=(((ts2-ts1)+(ts3-ts4))/2);
+   // offset=(((ts1234[1]-ts1234[0])+(ts1234[2]-ts1234[3]))/2);
     return offset;
 }
 

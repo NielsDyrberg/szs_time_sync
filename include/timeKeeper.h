@@ -18,6 +18,8 @@ public:
     void resetTime();
     long long getTime();
 
+protected:
+
 
 private:
     std::chrono::time_point<std::chrono::steady_clock> start_time;

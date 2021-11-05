@@ -9,11 +9,13 @@
 #include "dataTransport.h"
 #include <thread>
 DataTransport dt;
+TimeKeeper T;
 Master M;
+char slave_1_Ip[] = "192.168.0.101";
+
 
 void test_send_syncReq(){
 
-    char slave_1_Ip[] = "192.168.0.105";
     DataTransport dt(slave_1_Ip, PORT, true);
     // char* tmp_hostname = dt.GetHostname();
     dt.open_connection();
@@ -26,12 +28,29 @@ void checkForSyncAcpt(){
     bufPTR = dt.GetBuffer(bufPTR, &size);
     if(dt.receive() > 0 && *bufPTR == 1) {
         M.TS2();
-        //std::cout<<"NOICEeee";
+      // std::cout<<M.ts23[0];
+    } else{
+        std::cout<<"Sync failed!";
     }
 }
 
+void sendTS_2_3(){
+
+    DataTransport dt(slave_1_Ip, 1695, true);
+    // char* tmp_hostname = dt.GetHostname();
+    dt.open_connection();
+    M.TS3();
+    long long unsigned int msgToSend[] = {M.ts23[0], M.ts23[1]};
+    dt.send(msgToSend, sizeof(msgToSend));
+}
+
 int main(){
+    T.getTime();
+    T.resetTime();
     test_send_syncReq();
     checkForSyncAcpt();
+    sendTS_2_3();
+    std::cout<<M.ts23[0]<<std::endl;
+    std::cout<<M.ts23[1]<<std::endl;
     return 0;
 }

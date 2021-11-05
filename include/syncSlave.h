@@ -21,9 +21,9 @@ public:
     long long clockOffset();
     long long adjustClock( long long CO);
     void print();
-
+    unsigned long long ts1234[4];
 protected:
-    long long ts1234[4];
+
 private:
     std::string syncReqR;
 
