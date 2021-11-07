@@ -4,12 +4,13 @@
 #include "../include/timeKeeper.h"
 #include "../include/syncSlave.h"
 
-
-Slave::Slave() : ts1234{0,0,0,0} {
+long long newtime;
+Slave::Slave() : ts1234{0,0,0,0,0} {
 }
 
 void Slave::TS1() {
-    ts1234[0] = keeperS.getTime();
+    int k = 138;
+    ts1234[0] = keeperS.getTime()+k;
     //std::cout<<TS2<<std::endl;
 }
 
@@ -17,6 +18,10 @@ void Slave::TS1() {
 
 void Slave::TS4() {
     ts1234[3] = keeperS.getTime();
+    //std::cout<<TS2<<std::endl;
+}
+void Slave::TS44() {
+    ts1234[4] = keeperS.getTime();
     //std::cout<<TS2<<std::endl;
 }
 
@@ -30,7 +35,11 @@ void Slave::TS23Recived( long long TS2, long long TS3) {
 
 long long  Slave::roundTripTime() {
     long long  roundTripTime;
-    roundTripTime=((ts1234[3]-ts1234[0])-(ts1234[2]-ts1234[1]));
+    auto  ts1 = (long long)ts1234[0];
+    auto  ts2 = (long long)ts1234[1];
+    auto  ts3 = (long long)ts1234[2];
+    auto  ts4 = (long long)ts1234[3];
+    roundTripTime=((ts4-ts1)-(ts3-ts2))/2;
     return roundTripTime;
 }
 
@@ -46,9 +55,8 @@ long long  Slave::clockOffset() {
 }
 
 long long Slave::adjustClock(long long CO){
-    long long newClock;
-    newClock = CO+keeperS.getTime();
-    return newClock;
+    newtime=CO+keeperS.getTime();
+    return newtime;
 }
 
 void Slave::print() {

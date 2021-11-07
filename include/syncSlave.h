@@ -17,11 +17,12 @@ public:
     void TS1();
     void TS23Recived( long long TS2, long long TS3);
     void TS4();
+    void TS44();
     long long roundTripTime();
     long long clockOffset();
     long long adjustClock( long long CO);
     void print();
-    unsigned long long ts1234[4];
+    unsigned long long ts1234[5];
 protected:
 
 private:

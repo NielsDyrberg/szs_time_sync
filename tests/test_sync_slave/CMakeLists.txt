@@ -12,4 +12,5 @@ set(${PROJECT_NAME} test_slave.cpp)
 add_executable(${PROJECT_NAME} test_slave.cpp)
 
 # Link libraries to project
-target_link_libraries(${PROJECT_NAME} szs_time_sync szs_datatransport)
+target_link_libraries(${PROJECT_NAME} szs_time_sync szs_datatransport BCM2835)
+

@@ -29,6 +29,6 @@ target_sources(${PROJECT_NAME} INTERFACE
 add_subdirectory(extern)
 
 # Link libraries to project
-target_link_libraries(${PROJECT_NAME} INTERFACE szs_datatransport)
+target_link_libraries(${PROJECT_NAME} INTERFACE szs_datatransport BCM2835)
 
 add_subdirectory(tests)

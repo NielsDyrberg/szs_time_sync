@@ -9,10 +9,34 @@
 #include "syncSlave.h"
 #include "dataTransport.h"
 #include <thread>
-
+#include <bcm2835.h>
+#define PIN RPI_V2_GPIO_P1_40 //gpio 17
 DataTransport dt;
 TimeKeeper T;
 Slave S;
+
+int Test_setPinLow(){
+    if (!bcm2835_init())
+        return 1;
+
+    // Set the pin to be an output
+    bcm2835_gpio_fsel(PIN, BCM2835_GPIO_FSEL_OUTP);
+    bcm2835_gpio_write(PIN, LOW);
+    bcm2835_delay(500);
+    return 0;
+}
+int Test_setPinHIGH(){
+    if (!bcm2835_init())
+        return 1;
+
+    // Set the pin to be an output
+    bcm2835_gpio_fsel(PIN, BCM2835_GPIO_FSEL_OUTP);
+    bcm2835_gpio_write(PIN, HIGH);
+    bcm2835_delay(500);
+    return 0;
+}
+
+
 void test_recv_two_longlong_int(){
     uint8_t * bufPTR = nullptr;
     uint16_t size = 0;
@@ -33,9 +57,12 @@ void checkForSync(){
     bufPTR = dt.GetBuffer(bufPTR, &size);
     if(dt.receive() > 0 && *bufPTR == 255) {
         S.TS1();
-
-        }
+    } else{
+        std::cout<<"Sync failed!";
+    }
 }
+
+
 
 void send_syncReq(){
 
@@ -66,27 +93,28 @@ void recv_TS23FromMaster(){
 
 
 int main(){
-    T.resetTime();
-    ss = T.getTime();
-   std::cout<<ss;
-
-    int i = 60000000;
+    long long int ss;
+    long long t = 10000000;
     long long int offset;
+    long long int RTT;
     long long adj;
-    T.getTime();
-    T.resetTime();
+    Test_setPinLow();
+    S.keeperS.getTime();
+    S.keeperS.resetTime();
     checkForSync();
     send_syncReq();
+    S.TS44();
    recv_TS23FromMaster();
    offset = S.clockOffset();
+    RTT = S.roundTripTime();
    adj = S.adjustClock(offset);
-   while ( S.adjustClock(offset)<i)
-   {};
-
+    while (S.adjustClock(offset)<t){}
+    Test_setPinHIGH();
    std::cout<<adj<<" adjusted slave clock"<<std::endl;
+    std::cout<<RTT<<" RTT"<<std::endl;
    //S.print();
 
-    std::cout << S.ts1234[0]<<std::endl <<S.ts1234[1]<<std::endl << S.ts1234[2]<<std::endl << S.ts1234[3]<<std::endl << std::endl;
+    std::cout << S.ts1234[0]<<std::endl<< S.ts1234[4]<<std::endl<<std::endl <<S.ts1234[1]<<std::endl << S.ts1234[2]<<std::endl << S.ts1234[3]<<std::endl << std::endl;
 
    //S.TS23Recived();
     return 0;

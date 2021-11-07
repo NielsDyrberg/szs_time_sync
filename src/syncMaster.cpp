@@ -9,7 +9,7 @@
 
 
 
-Master::Master() : ts23{0,0}{
+Master::Master() : ts23{0,0,0}{
 }
 
 std::string Master::syncReq_msg() {
@@ -26,7 +26,14 @@ void Master::TS2() {
 }
 
 void Master::TS3() {
-    ts23[1] = keeper.getTime();
+    unsigned int k = 40;
+    ts23[1] = keeper.getTime()+k;
+    //std::cout<<TS3<<std::endl;
+
+
+}
+void Master::TS33() {
+    ts23[2] = keeper.getTime();
     //std::cout<<TS3<<std::endl;
 
 

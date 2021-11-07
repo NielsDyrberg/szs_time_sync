@@ -16,12 +16,13 @@
 class Master{
 public:
     Master ();
-    long long unsigned ts23[2];
+    long long unsigned ts23[3];
 
     TimeKeeper keeper;
     std::string syncReq_msg();
     void TS2();
     void TS3();
+    void TS33();
 
    // void print();
 protected:

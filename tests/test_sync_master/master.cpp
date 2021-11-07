@@ -7,11 +7,35 @@
 #include "syncMaster.h"
 #include "syncSlave.h"
 #include "dataTransport.h"
+#include <bcm2835.h>
 #include <thread>
+#define PIN RPI_V2_GPIO_P1_40 //gpio 17
 DataTransport dt;
 TimeKeeper T;
 Master M;
+
 char slave_1_Ip[] = "192.168.0.101";
+
+int Test_setPinLow(){
+    if (!bcm2835_init())
+        return 1;
+
+    // Set the pin to be an output
+    bcm2835_gpio_fsel(PIN, BCM2835_GPIO_FSEL_OUTP);
+    bcm2835_gpio_write(PIN, LOW);
+    bcm2835_delay(500);
+    return 0;
+}
+int Test_setPinHIGH(){
+    if (!bcm2835_init())
+        return 1;
+
+    // Set the pin to be an output
+    bcm2835_gpio_fsel(PIN, BCM2835_GPIO_FSEL_OUTP);
+    bcm2835_gpio_write(PIN, HIGH);
+    bcm2835_delay(500);
+    return 0;
+}
 
 
 void test_send_syncReq(){
@@ -45,12 +69,19 @@ void sendTS_2_3(){
 }
 
 int main(){
-    T.getTime();
-    T.resetTime();
+    long long t = 10000000;
+    long long int ss;
+    Test_setPinLow();
+    M.keeper.getTime();
+    M.keeper.resetTime();
     test_send_syncReq();
     checkForSyncAcpt();
     sendTS_2_3();
+    M.TS33();
+   while (M.keeper.getTime()<t){}
+   Test_setPinHIGH();
     std::cout<<M.ts23[0]<<std::endl;
     std::cout<<M.ts23[1]<<std::endl;
+    std::cout<<M.ts23[2]<<std::endl;
     return 0;
 }
