@@ -3,37 +3,64 @@
 //
 #include "../include/timeKeeper.h"
 #include "../include/syncSlave.h"
+#define PORT 1695
+#define SyncReq 0xFF // tallet 255 = "1111 1111" for anmodning om sync
+#define SyncAcpt 0x01 // tallet   1 = "0000 0001" for accept af sync
 
 long long newtime;
-Slave::Slave() : ts1234{0,0,0,0,0} {
+Timekeeper_Slave::Timekeeper_Slave() : dt(PORT), ts1234{0,0,0,0,0} {
+
 }
 
-void Slave::TS1() {
+void Timekeeper_Slave::TS1() {
     int k = 138;
-    ts1234[0] = keeperS.getTime()+k;
+    ts1234[0] = keeperS.getTime();
     //std::cout<<TS2<<std::endl;
 }
 
+void Timekeeper_Slave::Sync_Check_And_Accept() {
+    uint8_t *bufPTR = nullptr;
+    uint16_t size = 0;
+    uint8_t msg[] = {SyncAcpt};
+    if (dt.receive(false) > 0) {
+        bufPTR = dt.GetBuffer(bufPTR, &size);
+        if (*bufPTR == SyncReq) {
+            TS1();
+            dt.send(msg, sizeof(msg));
+        } else {
+            std::cout << "Sync Error" << std::endl;
+        }
+    }
+}
 
+void Timekeeper_Slave::Recive_TS23(){
+    long long unsigned int *bufPTR = nullptr;
+    uint8_t size = 0;
+    if (dt.receive(false) > 0) {
+        TS4();
+        bufPTR = dt.GetBuffer(bufPTR, &size);
+}
+    for (int i = 0; i < size; i++) {
+        ts1234[1]= *bufPTR;
+    }
+    bufPTR++;
+    for (int i = 0; i < size; i++) {
+        ts1234[2]= *bufPTR;
+    }
+}
 
-void Slave::TS4() {
+void Timekeeper_Slave::TS4() {
     ts1234[3] = keeperS.getTime();
     //std::cout<<TS2<<std::endl;
 }
-void Slave::TS44() {
+void Timekeeper_Slave::TS44() {
     ts1234[4] = keeperS.getTime();
     //std::cout<<TS2<<std::endl;
 }
 
-void Slave::TS23Recived( long long TS2, long long TS3) {
 
 
-    ts1234[1] = TS2;
-    ts1234[2] = TS3;
-
-}
-
-long long  Slave::roundTripTime() {
+long long  Timekeeper_Slave::roundTripTime() {
     long long  roundTripTime;
     auto  ts1 = (long long)ts1234[0];
     auto  ts2 = (long long)ts1234[1];
@@ -43,7 +70,7 @@ long long  Slave::roundTripTime() {
     return roundTripTime;
 }
 
-long long  Slave::clockOffset() {
+long long  Timekeeper_Slave::clockOffset() {
     long long  offset;
     auto  ts1 = (long long)ts1234[0];
     auto  ts2 = (long long)ts1234[1];
@@ -54,12 +81,15 @@ long long  Slave::clockOffset() {
     return offset;
 }
 
-long long Slave::adjustClock(long long CO){
+long long Timekeeper_Slave::adjustClock(long long CO){
     newtime=CO+keeperS.getTime();
     return newtime;
 }
 
-void Slave::print() {
+
+
+
+void Timekeeper_Slave::print() {
     std::cout<<"_________________________________"<<std::endl;
     std::cout<<"TS1:                        " << ts1234[0] <<" µs "<<std::endl;
     std::cout<<"TS2:                   " << ts1234[1] <<" µs "<<std::endl;

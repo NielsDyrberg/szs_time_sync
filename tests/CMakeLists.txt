@@ -1,4 +1,3 @@
 
-add_subdirectory(test_custom_timekeeper)
-add_subdirectory(test_sync_master)
-add_subdirectory(test_sync_slave)
+add_subdirectory(test_master_timekeeper)
+add_subdirectory(test_slave_timekeeper)
