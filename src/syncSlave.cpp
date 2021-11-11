@@ -3,7 +3,7 @@
 //
 #include "../include/timeKeeper.h"
 #include "../include/syncSlave.h"
-#define PORT 1695
+#define PORT 1696
 #define SyncReq 0xFF // tallet 255 = "1111 1111" for anmodning om sync
 #define SyncAcpt 0x01 // tallet   1 = "0000 0001" for accept af sync
 

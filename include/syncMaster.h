@@ -25,7 +25,6 @@ public:
 
     TimeKeeper keeper;
     UDP_client dt;
-    std::string syncReq_msg();
     void TS2();
     void TS3();
     void TS33();
