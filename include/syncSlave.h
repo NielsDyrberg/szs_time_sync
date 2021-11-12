@@ -21,6 +21,7 @@ public:
     void TS44();
     long long roundTripTime();
     long long clockOffset();
+    bool Check_Sync_OK();
     long long adjustClock( long long CO);
     void print();
     unsigned long long ts1234[5];

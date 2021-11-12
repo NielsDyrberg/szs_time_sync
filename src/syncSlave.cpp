@@ -6,29 +6,36 @@
 #define PORT 1696
 #define SyncReq 0xFF // tallet 255 = "1111 1111" for anmodning om sync
 #define SyncAcpt 0x01 // tallet   1 = "0000 0001" for accept af sync
-
+#define SyncDecline 0x81 // tallet   129 = "1000 0001" for decline af sync
+int q=0;
 long long newtime;
+bool b= true;
+
+
 Timekeeper_Slave::Timekeeper_Slave() : dt(PORT), ts1234{0,0,0,0,0} {
 
 }
 
 void Timekeeper_Slave::TS1() {
     int k = 138;
-    ts1234[0] = keeperS.getTime();
-    //std::cout<<TS2<<std::endl;
+    ts1234[0] =keeperS.getTime();
+    //std::cout<<"ofset: "<<ts1234[0]<<std::endl;
+
 }
 
 void Timekeeper_Slave::Sync_Check_And_Accept() {
     uint8_t *bufPTR = nullptr;
     uint16_t size = 0;
     uint8_t msg[] = {SyncAcpt};
+
     if (dt.receive(false) > 0) {
         bufPTR = dt.GetBuffer(bufPTR, &size);
         if (*bufPTR == SyncReq) {
+           // std::cout<<"Jeg har modtaget data"<<std::endl;
             TS1();
             dt.send(msg, sizeof(msg));
         } else {
-            std::cout << "Sync Error" << std::endl;
+           // std::cout << "Sync Error" << std::endl;
         }
     }
 }
@@ -47,10 +54,13 @@ void Timekeeper_Slave::Recive_TS23(){
     for (int i = 0; i < size; i++) {
         ts1234[2]= *bufPTR;
     }
+
 }
 
 void Timekeeper_Slave::TS4() {
-    ts1234[3] = keeperS.getTime();
+
+   ts1234[3] = keeperS.getTime();
+
     //std::cout<<TS2<<std::endl;
 }
 void Timekeeper_Slave::TS44() {
@@ -77,8 +87,34 @@ long long  Timekeeper_Slave::clockOffset() {
     auto  ts3 = (long long)ts1234[2];
     auto  ts4 = (long long)ts1234[3];
     offset=(((ts2-ts1)+(ts3-ts4))/2);
-   // offset=(((ts1234[1]-ts1234[0])+(ts1234[2]-ts1234[3]))/2);
+  /*  k[i]=(ts1234[1]);
+    i++;
+    k[i]=(ts1234[3]);
+    i++;
+    if(i==16){
+        for (int j = 1; j < 17; ++j) {
+            std::cout<<j<<"  TS  :"<< k[j]<<std::endl;
+        }
+        std::cout<<"________DONE_____"<<std::endl;
+    }*/
     return offset;
+}
+
+bool Timekeeper_Slave::Check_Sync_OK(){
+    bool flag = true;
+    uint8_t msgAccpt[] = {SyncAcpt};
+    uint8_t msgDecline[] = {SyncDecline};
+    long long int RTTallowed = 1200;
+
+    if (roundTripTime()<RTTallowed){
+        dt.send(msgAccpt, sizeof(msgAccpt));
+    }
+
+    else {
+        dt.send(msgDecline, sizeof(msgDecline));
+        flag = false;
+    }
+    return flag;
 }
 
 long long Timekeeper_Slave::adjustClock(long long CO){
@@ -105,6 +141,7 @@ void Timekeeper_Slave::print() {
     }
         j++;
     }*/
+
     std::cout<<"---------------------------------"<<std::endl;
     std::cout<<"Round trip time:          " <<roundTripTime() <<" µs"<<std::endl;
     std::cout<<"Clock offset:          " <<clockOffset()<<" µs"<<std::endl;

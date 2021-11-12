@@ -14,8 +14,9 @@
 
 int main(){
     //-------------------------------------------------//
-    long long int delay = 2000000;
+    long long int delay = 100000;
     long long int savetime =0;
+    int length = 8;
     if(!bcm2835_init())return 1;
     bcm2835_gpio_fsel(PIN, BCM2835_GPIO_FSEL_OUTP);
     bcm2835_gpio_write(PIN, LOW);
@@ -23,14 +24,20 @@ int main(){
     //-------------------------------------------------//
     TimeKeeper_Master M;
     M.keeper.resetTime();
-    for (int i = 0; (i<7); i++ ){
-
+    for (int i = 0; (i<length); i++ ){
+        jump :
+        //std::cout<<"JEG Jumper"<<std::endl;
     M.SyncReq_and_accept();
     M.Send_TS23();
+        if (!M.Wait_for_Sync_OK()){
+          //  std::cout<<"JEG ER HER bare rolig"<<std::endl;
+            //sleep(1);
+            goto jump;
+        }
     //-------------------------------------------------//
-    while(M.keeper.getTime()<delay+savetime){}
+   while(M.keeper.getTime()<delay+savetime){}
     bcm2835_gpio_write(PIN, HIGH);
-    sleep(1);
+        sleep(1);
     bcm2835_gpio_write(PIN, LOW);
     savetime = M.keeper.getTime();
 

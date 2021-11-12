@@ -6,6 +6,7 @@
 #define PORT 1696
 #define SyncReq 0xFF // tallet 255 = "1111 1111" for anmodning om sync
 #define SyncAcpt 0x01 // tallet   1 = "0000 0001" for accept af sync
+#define SyncDecline 0x81 // tallet   129 = "1000 0001" for decline af sync
 #define S1_ip "192.168.0.101"
 #define S2_ip "192.168.0.102"
 #define S3_ip "192.168.0.103"
@@ -13,7 +14,7 @@
 #define S5_ip "192.168.0.104"
 #define S6_ip "192.168.0.105"
 #define S7_ip "192.168.0.106"
-char slaveIP[14] = S1_ip;
+char slaveIP[14] = S5_ip;
 
 
 TimeKeeper_Master::TimeKeeper_Master() : dt(slaveIP, PORT, true ),   ts23{0,0,0}{
@@ -25,7 +26,7 @@ TimeKeeper_Master::TimeKeeper_Master() : dt(slaveIP, PORT, true ),   ts23{0,0,0}
 
 void TimeKeeper_Master::TS2() {
     ts23[0] = keeper.getTime();
-    //std::cout<<TS2<<std::endl;
+   // std::cout<<ts23[0]<<std::endl;
 
 
 }
@@ -62,6 +63,19 @@ void TimeKeeper_Master::Send_TS23(){
     TS3();
     long long unsigned int msg[] ={ts23[0], ts23[1]};
     dt.send(msg, sizeof(msg));
+}
+
+bool TimeKeeper_Master::Wait_for_Sync_OK(){
+    bool check = false;
+    long long unsigned int *bufPTR = nullptr;
+    uint8_t size = 0;
+    if (dt.receive(false) > 0) {
+        bufPTR = dt.GetBuffer(bufPTR, &size);
+        if (*bufPTR == SyncAcpt) {
+            check = true;
+        }
+}
+    return check ;
 }
 
 /*void Master::print() {

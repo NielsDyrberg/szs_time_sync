@@ -30,6 +30,7 @@ public:
     void TS33();
     void SyncReq_and_accept();
     void Send_TS23();
+    bool Wait_for_Sync_OK();
 
 
 protected:
