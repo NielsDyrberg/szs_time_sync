@@ -37,7 +37,7 @@ int main(){
     //-------------------------------------------------//
    while(M.keeper.getTime()<delay+savetime){}
     bcm2835_gpio_write(PIN, HIGH);
-        sleep(1);
+        delayMicroseconds(500);
     bcm2835_gpio_write(PIN, LOW);
     savetime = M.keeper.getTime();
 

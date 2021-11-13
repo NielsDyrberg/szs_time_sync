@@ -29,7 +29,7 @@ public:
 protected:
 
 private:
-
+    long long adjtimee = 0;
     std::string syncReqR;
 
 

@@ -23,6 +23,7 @@ int test_timer(){
     bcm2835_gpio_write(PIN1, LOW);
     //-------------------------------------------------//
     Timekeeper_Slave S;
+   // S.keeperS.getTime();
     S.keeperS.resetTime();
     for (int i = 0; (i<length); i++ ) {
         jump :
@@ -37,7 +38,7 @@ int test_timer(){
         //-------------------------------------------------//
         while (S.adjustClock(adjtime) < delay+savetime) {}
         bcm2835_gpio_write(PIN1, HIGH);
-        sleep(1);
+        delayMicroseconds(500);
         bcm2835_gpio_write(PIN1, LOW);
         savetime = S.adjustClock(adjtime);
        RTT[j] = S.roundTripTime();

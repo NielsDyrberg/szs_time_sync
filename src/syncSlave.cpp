@@ -8,7 +8,7 @@
 #define SyncAcpt 0x01 // tallet   1 = "0000 0001" for accept af sync
 #define SyncDecline 0x81 // tallet   129 = "1000 0001" for decline af sync
 int q=0;
-long long newtime;
+long long newtime=0;
 bool b= true;
 
 
@@ -18,8 +18,8 @@ Timekeeper_Slave::Timekeeper_Slave() : dt(PORT), ts1234{0,0,0,0,0} {
 
 void Timekeeper_Slave::TS1() {
     int k = 138;
-    ts1234[0] =keeperS.getTime();
-    //std::cout<<"ofset: "<<ts1234[0]<<std::endl;
+    ts1234[0] =keeperS.getTime();//keeperS.getTime();
+    //std::cout<<"TS1: "<<ts1234[0]<<std::endl;
 
 }
 
@@ -59,7 +59,7 @@ void Timekeeper_Slave::Recive_TS23(){
 
 void Timekeeper_Slave::TS4() {
 
-   ts1234[3] = keeperS.getTime();
+   ts1234[3] = keeperS.getTime();//keeperS.getTime();
 
     //std::cout<<TS2<<std::endl;
 }
@@ -87,6 +87,7 @@ long long  Timekeeper_Slave::clockOffset() {
     auto  ts3 = (long long)ts1234[2];
     auto  ts4 = (long long)ts1234[3];
     offset=(((ts2-ts1)+(ts3-ts4))/2);
+    adjtimee=offset;
   /*  k[i]=(ts1234[1]);
     i++;
     k[i]=(ts1234[3]);

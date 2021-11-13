@@ -11,10 +11,9 @@
 #define S2_ip "192.168.0.102"
 #define S3_ip "192.168.0.103"
 #define S4_ip "192.168.0.104"
-#define S5_ip "192.168.0.104"
-#define S6_ip "192.168.0.105"
-#define S7_ip "192.168.0.106"
-char slaveIP[14] = S5_ip;
+#define S5_ip "192.168.0.105"
+#define S6_ip "192.168.0.106"
+char slaveIP[14] = S3_ip;
 
 
 TimeKeeper_Master::TimeKeeper_Master() : dt(slaveIP, PORT, true ),   ts23{0,0,0}{
