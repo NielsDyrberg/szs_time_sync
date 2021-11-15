@@ -7,6 +7,8 @@
 #define SyncReq 0xFF // tallet 255 = "1111 1111" for anmodning om sync
 #define SyncAcpt 0x01 // tallet   1 = "0000 0001" for accept af sync
 #define SyncDecline 0x81 // tallet   129 = "1000 0001" for decline af sync
+
+
 #define S1_ip "192.168.0.101"
 #define S2_ip "192.168.0.102"
 #define S3_ip "192.168.0.103"
@@ -16,17 +18,13 @@
 char slaveIP[14] = S3_ip;
 
 
-TimeKeeper_Master::TimeKeeper_Master() : dt(slaveIP, PORT, true ),   ts23{0,0,0}{
-
-
+TimeKeeper_Master::TimeKeeper_Master() : dt(slaveIP, PORT, true ),   ts23{0,0}{
 }
-
 
 
 void TimeKeeper_Master::TS2() {
     ts23[0] = keeper.getTime();
    // std::cout<<ts23[0]<<std::endl;
-
 
 }
 
@@ -34,13 +32,6 @@ void TimeKeeper_Master::TS3() {
     unsigned int k = 40;
     ts23[1] = keeper.getTime();// konstant er påsat her!OBS
     //std::cout<<TS3<<std::endl;
-
-
-}
-void TimeKeeper_Master::TS33() {
-    ts23[2] = keeper.getTime();
-    //std::cout<<TS3<<std::endl;
-
 
 }
 
@@ -51,9 +42,7 @@ void TimeKeeper_Master::SyncReq_and_accept(){
     if(dt.send_and_receive(msg, sizeof(msg)) > 0) {
         bufPTR = dt.GetBuffer(bufPTR, &size);
         if (*bufPTR == SyncAcpt){
-            TS2();// Tjek tid på denne, tror den burde være mindre!
-            //std::cout<<"JEG ER HER bare rolig"<<std::endl;
-
+            TS2();
         }
 
     }
@@ -77,25 +66,5 @@ bool TimeKeeper_Master::Wait_for_Sync_OK(){
     return check ;
 }
 
-/*void Master::print() {
-    std::cout<<ts23[0] << " ";
-    std::cout<<ts23[1] << std::endl;
-}*/
 
-
-
-
-
-/*int timeDiff::calcTimeDiff(int TS1, int TS2, int TS3, int TS4) {
-
-    int roundTripTime;
-    int clockDelay;
-
-    roundTripTime=((TS4-TS1)-(TS3-TS2));
-    clockDelay = abs((((TS2-TS1)+(TS3-TS4))/2));
-
-
-    return 0;
-}
- */
 

@@ -7,12 +7,11 @@
 #define SyncReq 0xFF // tallet 255 = "1111 1111" for anmodning om sync
 #define SyncAcpt 0x01 // tallet   1 = "0000 0001" for accept af sync
 #define SyncDecline 0x81 // tallet   129 = "1000 0001" for decline af sync
-int q=0;
-long long newtime=0;
-bool b= true;
 
 
-Timekeeper_Slave::Timekeeper_Slave() : dt(PORT), ts1234{0,0,0,0,0} {
+
+
+Timekeeper_Slave::Timekeeper_Slave() : dt(PORT), ts1234{0,0,0,0} {
 
 }
 
@@ -59,15 +58,9 @@ void Timekeeper_Slave::Recive_TS23(){
 
 void Timekeeper_Slave::TS4() {
 
-   ts1234[3] = keeperS.getTime();//keeperS.getTime();
-
+   ts1234[3] = keeperS.getTime();
     //std::cout<<TS2<<std::endl;
 }
-void Timekeeper_Slave::TS44() {
-    ts1234[4] = keeperS.getTime();
-    //std::cout<<TS2<<std::endl;
-}
-
 
 
 long long  Timekeeper_Slave::roundTripTime() {
@@ -87,17 +80,6 @@ long long  Timekeeper_Slave::clockOffset() {
     auto  ts3 = (long long)ts1234[2];
     auto  ts4 = (long long)ts1234[3];
     offset=(((ts2-ts1)+(ts3-ts4))/2);
-    adjtimee=offset;
-  /*  k[i]=(ts1234[1]);
-    i++;
-    k[i]=(ts1234[3]);
-    i++;
-    if(i==16){
-        for (int j = 1; j < 17; ++j) {
-            std::cout<<j<<"  TS  :"<< k[j]<<std::endl;
-        }
-        std::cout<<"________DONE_____"<<std::endl;
-    }*/
     return offset;
 }
 
@@ -119,11 +101,10 @@ bool Timekeeper_Slave::Check_Sync_OK(){
 }
 
 long long Timekeeper_Slave::adjustClock(long long CO){
+    long long newtime=0;
     newtime=CO+keeperS.getTime();
     return newtime;
 }
-
-
 
 
 void Timekeeper_Slave::print() {
@@ -132,17 +113,6 @@ void Timekeeper_Slave::print() {
     std::cout<<"TS2:                   " << ts1234[1] <<" µs "<<std::endl;
     std::cout<<"TS3:                   " << ts1234[2] <<" µs "<<std::endl;
     std::cout<<"TS4:                      " << ts1234[3] <<" µs "<<std::endl;
-    /*
-    int j = 1;
-    for (int i=0; i <= 3; i++) {
-        if (i==3){
-            std::cout<<"TS"<<j <<":" << ts1234[i] <<" "<<std::endl;
-        } else{
-        std::cout<<"TS"<<j <<":" << ts1234[i] <<", ";
-    }
-        j++;
-    }*/
-
     std::cout<<"---------------------------------"<<std::endl;
     std::cout<<"Round trip time:          " <<roundTripTime() <<" µs"<<std::endl;
     std::cout<<"Clock offset:          " <<clockOffset()<<" µs"<<std::endl;
