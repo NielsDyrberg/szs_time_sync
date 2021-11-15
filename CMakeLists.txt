@@ -23,12 +23,24 @@ target_sources(${PROJECT_NAME} INTERFACE
         )
 
 ##########################################################################################
+################################   Find BCM2835   ########################################
+##########################################################################################
+
+# This finds the asound library
+find_library(mybcm2835 bcm2835)
+if(${mybcm2835})
+    message(FATAL_ERROR "bcm2835 lib not found")
+else()
+    message(STATUS "bcm2835 lib found as ${mybcm2835}")
+endif()
+
+##########################################################################################
 ###########################   Add subdirectories   #######################################
 ##########################################################################################
 
 add_subdirectory(extern)
 
 # Link libraries to project
-target_link_libraries(${PROJECT_NAME} INTERFACE szs_datatransport BCM2835)
+target_link_libraries(${PROJECT_NAME} INTERFACE ${mybcm2835} szs_datatransport)
 
 add_subdirectory(tests)
