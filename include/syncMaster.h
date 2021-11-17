@@ -1,5 +1,5 @@
 //
-// Created by Martin on 29-10-2021.
+// Created by mc on 29-10-2021.
 //
 
 #ifndef CUSTOM_TIMEKEEPER_SYNCMASTER_H
@@ -9,16 +9,16 @@
 #include "udp_client.h"
 
 
+#define SYNC_COMM_BUFFER_SIZE 256
 
-
-class TimeKeeper_Master{
+class Sync_Master{
 public:
 
 
-    TimeKeeper_Master ();
-
-    TimeKeeper keeper;
-    UDP_client dt;
+    Sync_Master ();
+    Sync_Master (char *host, bool is_ip);
+    long long Get_Time();
+    void Reset_Time();
     void TS2();
     void TS3();
     void SyncReq_and_accept();
@@ -30,6 +30,9 @@ protected:
 
 private:
     long long unsigned ts23[2];
+    TimeKeeper keeper;
+    UDP_client dt;
+    uint8_t comm_buffer[SYNC_COMM_BUFFER_SIZE]{};
 
 };
 
