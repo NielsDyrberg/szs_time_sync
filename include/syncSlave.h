@@ -8,12 +8,11 @@
 #include "udp_server.h"
 
 
-class Timekeeper_Slave {
+class Sync_Slave {
 
 public:
-    Timekeeper_Slave();
-    TimeKeeper keeperS;
-    UDP_server dt;
+    Sync_Slave();
+    void Reset_Time();
     void TS1();
     void Sync_Check_And_Accept();
     void TS4();
@@ -26,6 +25,8 @@ public:
 protected:
 
 private:
+    TimeKeeper keeperS;
+    UDP_server dt;
     long long unsigned ts1234[4];
 
 
