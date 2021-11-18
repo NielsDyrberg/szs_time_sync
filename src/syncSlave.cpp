@@ -41,14 +41,13 @@ void Sync_Slave::Sync_Check_And_Accept() {
     if (dt.receive(false) > 0) {
         bufPTR = dt.GetBuffer(bufPTR, &size);
         if (*bufPTR == SyncReq) {
-           std::cout<<"Jeg har modtaget data"<<std::endl;
             TS1();
             dt.send(msg, sizeof(msg));
         } else {
-           std::cout << "Sync Error" << unsigned(*bufPTR) << std::endl;
+           std::cout << "Sync Error due to wrong SyncReq package, recived package is: " << unsigned(*bufPTR) << std::endl;
         }
     }else{
-        std::cout<<"Jeg har en fejl"<<std::endl;
+        std::cout<<"Sync Error!!"<<std::endl;
     }
 }
 
