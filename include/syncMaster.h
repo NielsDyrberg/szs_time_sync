@@ -11,11 +11,11 @@
 
 
 
-class TimeKeeper_Master{
+class Sync_Master{
 public:
 
 
-    TimeKeeper_Master ();
+    Sync_Master ();
 
     TimeKeeper keeper;
     UDP_client dt;
