@@ -8,6 +8,11 @@
 #define SyncAcpt 0x01 // tallet   1 = "0000 0001" for accept af sync
 #define SyncDecline 0x81 // tallet   129 = "1000 0001" for decline af sync
 
+/**********************************************************************************************************************
+ * Static variables
+ **********************************************************************************************************************/
+
+static dt_type_t type = SYNC;
 
 #define S1_ip "192.168.0.101"
 #define S2_ip "192.168.0.102"
@@ -18,7 +23,7 @@
 char slaveIP[14] = S3_ip;
 
 
-Sync_Master::Sync_Master() : dt(slaveIP, PORT, true ),   ts23{0,0}{
+TimeKeeper_Master::TimeKeeper_Master() : dt(type, slaveIP, PORT, true ),   ts23{0,0}{
 }
 
 

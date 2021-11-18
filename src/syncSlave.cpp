@@ -8,12 +8,23 @@
 #define SyncAcpt 0x01 // tallet   1 = "0000 0001" for accept af sync
 #define SyncDecline 0x81 // tallet   129 = "1000 0001" for decline af sync
 
+/**********************************************************************************************************************
+ * Static variables
+ **********************************************************************************************************************/
+
+static dt_type_t type = SYNC;
 
 
-
-Sync_Slave::Sync_Slave() : dt(PORT), ts1234{0,0,0,0} {
+Sync_Slave::Sync_Slave() : dt(type, PORT), ts1234{0,0,0,0} {
 
 }
+
+void Sync_Slave::Reset_Time() {
+    keeperS.resetTime();
+
+
+}
+
 
 void Sync_Slave::TS1() {
     int k = 138;
