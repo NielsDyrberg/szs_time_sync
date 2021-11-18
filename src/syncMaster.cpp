@@ -23,7 +23,7 @@ static dt_type_t type = SYNC;
 char slaveIP[14] = S3_ip;
 
 
-TimeKeeper_Master::TimeKeeper_Master() : dt(type, slaveIP, PORT, true ),   ts23{0,0}{
+Sync_Master::Sync_Master() : dt(type, slaveIP, PORT, true ),   ts23{0,0}{
 }
 
 
