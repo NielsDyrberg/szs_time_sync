@@ -22,7 +22,7 @@ int main(){
     bcm2835_gpio_write(PIN, LOW);
 
     //-------------------------------------------------//
-    TimeKeeper_Master M;
+    Sync_Master M;
     M.keeper.resetTime();
     for (int i = 0; (i<length); i++ ){
         jump :

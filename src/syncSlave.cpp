@@ -11,18 +11,18 @@
 
 
 
-Timekeeper_Slave::Timekeeper_Slave() : dt(PORT), ts1234{0,0,0,0} {
+Sync_Slave::Sync_Slave() : dt(PORT), ts1234{0,0,0,0} {
 
 }
 
-void Timekeeper_Slave::TS1() {
+void Sync_Slave::TS1() {
     int k = 138;
     ts1234[0] =keeperS.getTime();//keeperS.getTime();
     //std::cout<<"TS1: "<<ts1234[0]<<std::endl;
 
 }
 
-void Timekeeper_Slave::Sync_Check_And_Accept() {
+void Sync_Slave::Sync_Check_And_Accept() {
     uint8_t *bufPTR = nullptr;
     uint16_t size = 0;
     uint8_t msg[] = {SyncAcpt};
@@ -39,7 +39,7 @@ void Timekeeper_Slave::Sync_Check_And_Accept() {
     }
 }
 
-void Timekeeper_Slave::Recive_TS23(){
+void Sync_Slave::Recive_TS23(){
     long long unsigned int *bufPTR = nullptr;
     uint8_t size = 0;
     if (dt.receive(false) > 0) {
@@ -56,14 +56,14 @@ void Timekeeper_Slave::Recive_TS23(){
 
 }
 
-void Timekeeper_Slave::TS4() {
+void Sync_Slave::TS4() {
 
    ts1234[3] = keeperS.getTime();
     //std::cout<<TS2<<std::endl;
 }
 
 
-long long  Timekeeper_Slave::roundTripTime() {
+long long  Sync_Slave::roundTripTime() {
     long long  roundTripTime;
     auto  ts1 = (long long)ts1234[0];
     auto  ts2 = (long long)ts1234[1];
@@ -73,7 +73,7 @@ long long  Timekeeper_Slave::roundTripTime() {
     return roundTripTime;
 }
 
-long long  Timekeeper_Slave::clockOffset() {
+long long  Sync_Slave::clockOffset() {
     long long  offset;
     auto  ts1 = (long long)ts1234[0];
     auto  ts2 = (long long)ts1234[1];
@@ -83,7 +83,7 @@ long long  Timekeeper_Slave::clockOffset() {
     return offset;
 }
 
-bool Timekeeper_Slave::Check_Sync_OK(){
+bool Sync_Slave::Check_Sync_OK(){
     bool flag = true;
     uint8_t msgAccpt[] = {SyncAcpt};
     uint8_t msgDecline[] = {SyncDecline};
@@ -100,14 +100,14 @@ bool Timekeeper_Slave::Check_Sync_OK(){
     return flag;
 }
 
-long long Timekeeper_Slave::adjustClock(long long CO){
+long long Sync_Slave::adjustClock(long long CO){
     long long newtime=0;
     newtime=CO+keeperS.getTime();
     return newtime;
 }
 
 
-void Timekeeper_Slave::print() {
+void Sync_Slave::print() {
     std::cout<<"_________________________________"<<std::endl;
     std::cout<<"TS1:                        " << ts1234[0] <<" µs "<<std::endl;
     std::cout<<"TS2:                   " << ts1234[1] <<" µs "<<std::endl;

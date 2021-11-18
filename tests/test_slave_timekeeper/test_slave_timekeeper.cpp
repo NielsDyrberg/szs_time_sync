@@ -22,7 +22,7 @@ int test_timer(){
     bcm2835_gpio_fsel(PIN1, BCM2835_GPIO_FSEL_OUTP);
     bcm2835_gpio_write(PIN1, LOW);
     //-------------------------------------------------//
-    Timekeeper_Slave S;
+    Sync_Slave S;
    // S.keeperS.getTime();
     S.keeperS.resetTime();
     for (int i = 0; (i<length); i++ ) {

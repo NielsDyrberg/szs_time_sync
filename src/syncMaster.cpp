@@ -18,24 +18,24 @@
 char slaveIP[14] = S3_ip;
 
 
-TimeKeeper_Master::TimeKeeper_Master() : dt(slaveIP, PORT, true ),   ts23{0,0}{
+Sync_Master::Sync_Master() : dt(slaveIP, PORT, true ),   ts23{0,0}{
 }
 
 
-void TimeKeeper_Master::TS2() {
+void Sync_Master::TS2() {
     ts23[0] = keeper.getTime();
    // std::cout<<ts23[0]<<std::endl;
 
 }
 
-void TimeKeeper_Master::TS3() {
+void Sync_Master::TS3() {
     unsigned int k = 40;
     ts23[1] = keeper.getTime();// konstant er påsat her!OBS
     //std::cout<<TS3<<std::endl;
 
 }
 
-void TimeKeeper_Master::SyncReq_and_accept(){
+void Sync_Master::SyncReq_and_accept(){
     uint8_t * bufPTR = nullptr;
     uint16_t size = 0;
     uint8_t msg[] = {0xFF};
@@ -47,13 +47,13 @@ void TimeKeeper_Master::SyncReq_and_accept(){
 
     }
 }
-void TimeKeeper_Master::Send_TS23(){
+void Sync_Master::Send_TS23(){
     TS3();
     long long unsigned int msg[] ={ts23[0], ts23[1]};
     dt.send(msg, sizeof(msg));
 }
 
-bool TimeKeeper_Master::Wait_for_Sync_OK(){
+bool Sync_Master::Wait_for_Sync_OK(){
     bool check = false;
     long long unsigned int *bufPTR = nullptr;
     uint8_t size = 0;

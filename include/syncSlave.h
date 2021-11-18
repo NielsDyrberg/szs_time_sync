@@ -8,10 +8,10 @@
 #include "udp_server.h"
 
 
-class Timekeeper_Slave {
+class Sync_Slave {
 
 public:
-    Timekeeper_Slave();
+    Sync_Slave();
     TimeKeeper keeperS;
     UDP_server dt;
     void TS1();
