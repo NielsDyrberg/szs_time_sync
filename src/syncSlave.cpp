@@ -12,7 +12,7 @@
  * Static variables
  **********************************************************************************************************************/
 
-dt_type_t type = SYNC;
+static dt_type_t type = SYNC;
 
 
 Sync_Slave::Sync_Slave() : dt(type, PORT), ts1234{0,0,0,0} {
