@@ -20,7 +20,7 @@ int test_timer(){
 
    // if(!bcm2835_init())return 1;
     //bcm2835_gpio_fsel(PIN1, BCM2835_GPIO_FSEL_OUTP);
-  //  bcm2835_gpio_write(PIN1, LOW);
+  // bcm2835_gpio_write(PIN1, LOW);
     //-------------------------------------------------//
     Sync_Slave S;
    // S.keeperS.getTime();
