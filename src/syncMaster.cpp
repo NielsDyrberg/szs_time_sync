@@ -13,9 +13,9 @@
 
 
 
-Sync_Master::Sync_Master (): ts23{0,0}{
+Sync_Master::Sync_Master ()= default;
 
-};
+
 Sync_Master::Sync_Master(char *host, bool is_ip): dt(host, PORT, is_ip, comm_buffer, SYNC_COMM_BUFFER_SIZE),  ts23{0,0}{
 
 }
@@ -42,7 +42,7 @@ void Sync_Master::SyncReq_and_accept(){
     uint16_t size = 0;
     uint8_t msg[] = {SyncReq};
     std::cout<<"Så langt så godt 2.0 :) "<<std::endl;
-    if(dt.send_and_receive(msg, sizeof(msg)) > 0) {
+    if(dt.send_and_receive(msg, sizeof(msg)) > 0 ) {
         std::cout<<"Sender "<<std::endl;
         bufPTR = dt.GetBuffer(bufPTR, &size);
         if (*bufPTR == SyncAcpt){
