@@ -13,5 +13,5 @@ set(${PROJECT_NAME} test_master_timekeeper.cpp)
 add_executable(${PROJECT_NAME} test_master_timekeeper.cpp)
 
 # Link libraries to project
-target_link_libraries(${PROJECT_NAME} szs_time_sync szs_datatransport BCM2835)
+target_link_libraries(${PROJECT_NAME} szs_time_sync szs_datatransport ${mybcm2835})
 
