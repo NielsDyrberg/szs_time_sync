@@ -12,16 +12,16 @@
  * Static variables
  **********************************************************************************************************************/
 
+static dt_type_t type = SYNC;
 
 
 
 
-Sync_Master::Sync_Master ()= default;
 
-
-Sync_Master::Sync_Master(char *host, bool is_ip): dt(host, PORT, is_ip, comm_buffer, SYNC_COMM_BUFFER_SIZE),  ts23{0,0}{
-
+Sync_Master::Sync_Master()=default;
+Sync_Master::Sync_Master(char *host, bool is_ip): dt(type, host, PORT, true ),   ts23{0,0}{
 }
+
 void Sync_Master::Reset_Time() {
     keeper.resetTime();
 }
@@ -31,7 +31,7 @@ long long Sync_Master::Get_Time() {
 
 void Sync_Master::TS2() {
     ts23[0] = keeper.getTime();
-    std::cout<<ts23[0]<<std::endl;
+
 
 }
 
@@ -44,7 +44,6 @@ void Sync_Master::SyncReq_and_accept(){
     uint8_t * bufPTR = nullptr;
     uint16_t size = 0;
     uint8_t msg[] = {SyncReq};
-    std::cout<<"Så langt så godt 2.0 :) "<<std::endl;
     if(dt.send_and_receive(msg, sizeof(msg)) > 0 ) {
         std::cout<<"Sender "<<std::endl;
         bufPTR = dt.GetBuffer(bufPTR, &size);
@@ -60,7 +59,6 @@ void Sync_Master::SyncReq_and_accept(){
 void Sync_Master::Send_TS23(){
     TS3();
     long long unsigned int msg[] ={ts23[0], ts23[1]};
-    std::cout<<"Sender TS "<<std::endl;
     dt.send(msg, sizeof(msg));
 
 
