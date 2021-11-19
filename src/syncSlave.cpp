@@ -42,7 +42,7 @@ void Sync_Slave::Sync_Check_And_Accept() {
             TS1();
             dt.send(msg, sizeof(msg));
         } else {
-            std::cout<<" \033[1;31mSynchronization error due to wrong SyncReq CID \033[0m\n "<<" [Sync_Slave::Sync_Check_And_Accept] "<<std::endl;
+            std::cout<<" \033[1;31mSynchronization error due to wrong SyncReq CID \033[0m "<<" [Sync_Slave::Sync_Check_And_Accept] "<<std::endl;
         }
     }else{
         std::cout<<"Sync Error!!"<<std::endl;
@@ -90,6 +90,10 @@ long long  Sync_Slave::clockOffset() {
     auto  ts4 = (long long)ts1234[3];
     offset=(((ts2-ts1)+(ts3-ts4))/2);
     return offset;
+}
+
+uint16_t Sync_Slave::Set_RTT_Filter(uint16_t setRTT){
+    RTTallowed = setRTT;
 }
 
 bool Sync_Slave::Check_Sync_OK(){

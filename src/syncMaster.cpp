@@ -52,7 +52,7 @@ void Sync_Master::SyncReq_and_accept(){
         }
 
     } else{
-        std::cout<<" \033[1;31mSynchronization error due to wrong SyncAcpt CID \033[0m\n "<<" [Sync_Master::SyncReq_and_accept] "<<std::endl;
+        std::cout<<" \033[1;31mSynchronization error due to non or wrong SyncAcpt CID \033[0m "<<" [Sync_Master::SyncReq_and_accept] "<<std::endl;
     }
 }
 void Sync_Master::Send_TS23(){

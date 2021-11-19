@@ -22,13 +22,14 @@ public:
     long long adjustClock( long long CO);
     void print();
     void Recive_TS23();
-protected:
+    uint16_t Set_RTT_Filter(uint16_t);
 
+protected:
 private:
     TimeKeeper keeperS;
     UDP_server dt;
     long long unsigned ts1234[4];
-    long long int RTTallowed = 2400;
+    uint16_t RTTallowed;
 
 
 
