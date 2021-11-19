@@ -27,9 +27,7 @@ void Sync_Slave::Reset_Time() {
 
 
 void Sync_Slave::TS1() {
-    int k = 138;
-    ts1234[0] =keeperS.getTime();//keeperS.getTime();
-    //std::cout<<"TS1: "<<ts1234[0]<<std::endl;
+    ts1234[0] =keeperS.getTime();
 
 }
 
@@ -44,7 +42,7 @@ void Sync_Slave::Sync_Check_And_Accept() {
             TS1();
             dt.send(msg, sizeof(msg));
         } else {
-           std::cout << "Sync Error due to wrong SyncReq package, recived package is: " << unsigned(*bufPTR) << std::endl;
+            std::cout<<" \033[1;31mSynchronization error due to wrong SyncReq CID \033[0m\n "<<" [Sync_Slave::Sync_Check_And_Accept] "<<std::endl;
         }
     }else{
         std::cout<<"Sync Error!!"<<std::endl;
@@ -69,19 +67,18 @@ void Sync_Slave::Recive_TS23(){
 }
 
 void Sync_Slave::TS4() {
-
    ts1234[3] = keeperS.getTime();
-    //std::cout<<TS2<<std::endl;
+
 }
 
 
-long long  Sync_Slave::roundTripTime() {
-    long long  roundTripTime;
+unsigned int Sync_Slave::roundTripTime() {
+    unsigned int roundTripTime;
     auto  ts1 = (long long)ts1234[0];
     auto  ts2 = (long long)ts1234[1];
     auto  ts3 = (long long)ts1234[2];
     auto  ts4 = (long long)ts1234[3];
-    roundTripTime=((ts4-ts1)-(ts3-ts2))/2;
+    roundTripTime=((ts4-ts1)-(ts3-ts2));
     return roundTripTime;
 }
 
@@ -99,7 +96,7 @@ bool Sync_Slave::Check_Sync_OK(){
     bool flag = true;
     uint8_t msgAccpt[] = {SyncAcpt};
     uint8_t msgDecline[] = {SyncDecline};
-    long long int RTTallowed = 1200;
+
 
     if (roundTripTime()<RTTallowed){
         dt.send(msgAccpt, sizeof(msgAccpt));
@@ -113,7 +110,7 @@ bool Sync_Slave::Check_Sync_OK(){
 }
 
 long long Sync_Slave::adjustClock(long long CO){
-    long long newtime=0;
+    long long newtime;
     newtime=CO+keeperS.getTime();
     return newtime;
 }

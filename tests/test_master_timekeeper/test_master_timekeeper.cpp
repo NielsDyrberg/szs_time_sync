@@ -23,7 +23,7 @@ int main(){
 
     //-------------------------------------------------//
     Sync_Master M;
-    M.keeper.resetTime();
+    M.Reset_Time();
     for (int i = 0; (i<length); i++ ){
         jump :
         //std::cout<<"JEG Jumper"<<std::endl;
@@ -35,11 +35,11 @@ int main(){
             goto jump;
         }
     //-------------------------------------------------//
-   while(M.keeper.getTime()<delay+savetime){}
+   while(M.Get_Time()<delay+savetime){}
     bcm2835_gpio_write(PIN, HIGH);
         delayMicroseconds(500);
     bcm2835_gpio_write(PIN, LOW);
-    savetime = M.keeper.getTime();
+    savetime = M.Get_Time();
 
     }
 

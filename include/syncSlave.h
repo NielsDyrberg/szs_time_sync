@@ -16,7 +16,7 @@ public:
     void TS1();
     void Sync_Check_And_Accept();
     void TS4();
-    long long roundTripTime();
+    unsigned int roundTripTime();
     long long clockOffset();
     bool Check_Sync_OK();
     long long adjustClock( long long CO);
@@ -28,6 +28,7 @@ private:
     TimeKeeper keeperS;
     UDP_server dt;
     long long unsigned ts1234[4];
+    long long int RTTallowed = 2400;
 
 
 

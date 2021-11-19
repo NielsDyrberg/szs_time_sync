@@ -45,7 +45,6 @@ void Sync_Master::SyncReq_and_accept(){
     uint16_t size = 0;
     uint8_t msg[] = {SyncReq};
     if(dt.send_and_receive(msg, sizeof(msg)) > 0 ) {
-        std::cout<<"Sender "<<std::endl;
         bufPTR = dt.GetBuffer(bufPTR, &size);
         if (*bufPTR == SyncAcpt){
 
@@ -53,7 +52,7 @@ void Sync_Master::SyncReq_and_accept(){
         }
 
     } else{
-        std::cout<<"Sender ikke  "<<std::endl;
+        std::cout<<" \033[1;31mSynchronization error due to wrong SyncAcpt CID \033[0m\n "<<" [Sync_Master::SyncReq_and_accept] "<<std::endl;
     }
 }
 void Sync_Master::Send_TS23(){
