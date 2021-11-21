@@ -24,6 +24,12 @@ public:
     void Recive_TS23();
     uint16_t Set_RTT_Filter(uint16_t);
 
+    /**
+     * @brief Returns the adjusted current time.
+     * @return Adjusted current time.
+     */
+    long long int Get_Time();
+
 protected:
 private:
     TimeKeeper keeperS;

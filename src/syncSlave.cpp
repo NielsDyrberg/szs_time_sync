@@ -132,3 +132,6 @@ void Sync_Slave::print() {
 
 }
 
+long long int Sync_Slave::Get_Time() {
+    return keeperS.getTime();
+}
