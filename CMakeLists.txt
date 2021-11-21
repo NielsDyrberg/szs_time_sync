@@ -3,7 +3,7 @@
 # Initial defs
 ############################################################
 cmake_minimum_required(VERSION 3.16) # CMake version check
-project(szs_time_sync VERSION 0.1.0) # Create project "szs_time_sync"
+project(szs_time_sync VERSION 0.2.0) # Create project "szs_time_sync"
 
 ##########################################################################################
 ##########################################################################################
